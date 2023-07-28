@@ -21,10 +21,11 @@
 	<legend>제목</legend>
 <form class="resForm" style="width:600px; padding:10px;" onsubmit="return false">
 	<div class="user">
-	<div style="border: 1px solid black; width:100px; height:100px; display:inline-block">펜션이미지</div>
-	<div class="pention" style="display:block">
+	<div class="pention" style="display:inline-block; width:600px; padding:10px;">
+	<div style="border: 1px solid black; width:300px; height:200px; display:block">펜션이미지</div><br>
+	<div style="border: 1px solid black; height:200px; display:block">
 	펜션명 <input type="text" value=""><br>
-	펜션ID <input type="text" value="">
+	펜션ID <input type="text" value=""></div>
 	</div><br>
 	
 		<c:forEach var="mem" items="${memberList}" varStatus="status">
