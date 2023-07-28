@@ -20,7 +20,7 @@ public class ResController {
 	@GetMapping("list")
 	public String getList(Model model) {	
 		service.getList(model);
-		    
+		
 		return "resvation";
 	}
 
