@@ -2,9 +2,12 @@ package com.peco.mapper;
 
 import java.util.List;
 
-import com.peco.vo.ResVO;
+import com.peco.vo.MemberVO;
+import com.peco.vo.PentionVO;
 
 public interface ResMapper {
 	
-	public List<ResVO> getList();
+	public List<MemberVO> getMemberList();
+	
+	public List<PentionVO> getPentionList();
 }

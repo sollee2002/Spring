@@ -19,7 +19,15 @@ public class ResController {
 	
 	@GetMapping("list")
 	public String getList(Model model) {	
-		service.getList(model);
+		
+		
+		service.getMemberList();
+		service.getPentionList();
+		
+		
+		model.addAttribute("memberList", service.getMemberList());
+		
+		model.addAttribute("pentionList", service.getPentionList());
 		
 		return "resvation";
 	}

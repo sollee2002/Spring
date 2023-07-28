@@ -6,8 +6,19 @@
 <!-- mapper의 namespace속성은 연결할 mapper의 interface 풀 경로로 작성  -->
 <mapper namespace="com.peco.mapper.ResMapper">
 
-	<select id="getList" resultType="com.peco.vo.ResVO">
-	select * from p_res
+	<select id="getMemberList" resultType="com.peco.vo.MemberVO">
+	select * from member
 	</select>
+	
+	<select id="getPentionList" resultType="com.peco.vo.PentionVO">
+	select * from Pension
+	</select>
+	
+	<insert id="insert">
+	insert into p_res (pr_id, startDate, endDate, pr_pay, period
+						, pName, p_id, priceCnt, pr_Name)
+		 		values (#{pr_id}, #{startDate}, #{endDate}, #{pr_pay}
+		 		, #{period}, #{pName}, #{p_id}, #{priceCnt}, ${pr_Name})
+	</insert>
 	
 </mapper>
