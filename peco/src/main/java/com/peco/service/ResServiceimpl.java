@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 
 import com.peco.mapper.ResMapper;
 import com.peco.vo.MemberVO;
+import com.peco.vo.P_RESVO;
 import com.peco.vo.PentionVO;
 
 @Service
@@ -24,6 +25,16 @@ public class ResServiceimpl implements ResService{
 	@Override
 	public List<PentionVO> getPentionList() {
 		return mapper.getPentionList();
+	}
+
+	@Override
+	public int insertResvation(P_RESVO p_resVO) {
+		return mapper.insertResvation(p_resVO);
+	}
+
+	@Override
+	public List<P_RESVO> getDisableDate() {
+		return mapper.getDisableDate();
 	}
 
 }

@@ -6,19 +6,26 @@
 <!-- mapper의 namespace속성은 연결할 mapper의 interface 풀 경로로 작성  -->
 <mapper namespace="com.peco.mapper.ResMapper">
 
-	<select id="getMemberList" resultType="com.peco.vo.MemberVO">
-	select * from member
-	</select>
-	
-	<select id="getPentionList" resultType="com.peco.vo.PentionVO">
-	select * from Pension
-	</select>
-	
-	<insert id="insert">
-	insert into p_res (pr_id, startDate, endDate, pr_pay, period
-						, pName, p_id, priceCnt, pr_Name)
-		 		values (#{pr_id}, #{startDate}, #{endDate}, #{pr_pay}
-		 		, #{period}, #{pName}, #{p_id}, #{priceCnt}, ${pr_Name})
-	</insert>
-	
+   <select id="getMemberList" resultType="com.peco.vo.MemberVO">
+   select * from member
+   </select>
+   
+   <select id="getPentionList" resultType="com.peco.vo.PentionVO">
+   select * from Pension where p_id = 'p22222222'
+   </select>
+   
+   <select id="getDisableDate" resultType="com.peco.vo.P_RESVO">
+   	select STARTDATE, ENDDATE from p_res
+   </select>
+   
+   <insert id="insertResvation">
+   insert into P_RES (PR_ID, STARTDATE, ENDDATE, PR_PAY, PERIOD
+                  , PNAME, P_ID, PRICECNT, PR_NAME, IMP_UID)
+             values (#{pr_id, jdbcType=VARCHAR}, #{startdate}
+             , #{enddate}, #{pr_pay, jdbcType=VARCHAR}
+             , #{period}, #{pname}
+             , #{p_id}, #{pricecnt, jdbcType=VARCHAR}
+             , #{pr_name, jdbcType=VARCHAR}, #{imp_uid})
+   </insert>
+   
 </mapper>
