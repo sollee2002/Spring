@@ -91,9 +91,9 @@
 -반려동물 이름을 받는지 아닌지 생각해보기 --%>
 
     <script>
-            //listDate 배열에 시작날짜와 끝 날짜 사이의 날짜 배열 반환
-            var listDate = [];
+
             let disDays = [];
+            let listDate = [];
             
         $(function() {
 
@@ -106,6 +106,7 @@
             $(".datepicker1").datepicker({
                 showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
                 ,showMonthAfterYear:true // 월- 년 순서가아닌 년도 - 월 순서
+                ,selectOtherMonths: true
                 //,changeYear: true //option값 년 선택 가능
                 //,changeMonth: true //option값 월 선택 가능                
                 //,showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시  
@@ -141,6 +142,7 @@
             $(".datepicker2").datepicker({
                 showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
                 ,showMonthAfterYear:true // 월- 년 순서가아닌 년도 - 월 순서
+                ,selectOtherMonths: true
                 //,changeYear: true //option값 년 선택 가능
                 //,changeMonth: true //option값 월 선택 가능                
                 //,showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시  
@@ -152,7 +154,7 @@
                 ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip
                 ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 텍스트
                 ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 Tooltip
-                ,minDate: "-5Y" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
+                ,minDate: "-1M" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
                 ,maxDate: "+1y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후) 
                 ,dateFormat: 'yy-mm-dd',
                 onSelect: function(date2) { //박스2에 출력
@@ -170,7 +172,7 @@
 
             
             btn1.addEventListener('click', function() {
-                
+                listDate = [];
                 let sDay = document.querySelector('#date1').value;
                 let eDay = document.querySelector('#date2').value;
                 console.log('s'+sDay,length);
@@ -199,12 +201,10 @@
                                 // console.log('l '+ listDate[i]);
                                 // console.log('d '+ disDays[j]);
                                 return false;
-                            }
+                            } 
                         }
                     }
-
-
-                
+                    
                     if(eArr.getTime() <= sArr.getTime()) {
                         alert('하루이상 선택해주세요');
                     } else {
@@ -225,6 +225,7 @@
 
                          }
                          }
+
                 }
              })
 
@@ -303,13 +304,17 @@
                                            
                                       });
                                     
-                                    $('#resForm').submit();
-                   		        	
+                                    $('#resForm').submit(); 
                    	        	} else {
                    	        		var msg = '결제에 실패하였습니다.';
                                     msg += '에러내용 : ' + rsp.error_msg;
                    	        	}
                            		alert(msg);
+	                           	 $.ajax({
+	                                 url: "/peco/success",
+	                                 type: 'get'
+	                           	 })
+                           		
                    	        });
                            });
                            
