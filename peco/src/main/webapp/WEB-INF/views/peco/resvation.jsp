@@ -91,7 +91,10 @@
 -반려동물 이름을 받는지 아닌지 생각해보기 --%>
 
     <script>
+            //listDate 배열에 시작날짜와 끝 날짜 사이의 날짜 배열 반환
+            var listDate = [];
             let disDays = [];
+            
         $(function() {
 
             //선택불가 날짜 비활성화
@@ -173,27 +176,6 @@
                 console.log('s'+sDay,length);
                 console.log('e'+eDay);
 
-                
-                //예약불가일자 포함 시 처리
-                //시작 날짜와 끝 날짜 사이의 날짜 배열 생성
-                function getDateRange(startDate, endDate, listDate) {
-                        var dateMove = new Date(startDate);
-                        var strDate = startDate;
-
-                        if (startDate == endDate) {
-                            var strDate = dateMove.toISOString().slice(0,10);
-                            listDate.push(strDate);
-                        } else {
-
-                            while (strDate < endDate)  {
-                                var strDate = dateMove.toISOString().slice(0, 10);
-                                listDate.push(strDate);
-                                dateMove.setDate(dateMove.getDate() + 1);
-                            }
-                        }
-                        return listDate;
-                    };
-
             if(!sDay.length || !eDay.length) { //만약에 input 값이 비었다면
             alert('날짜를 선택해주세요');
              } else {
@@ -205,8 +187,6 @@
                 // console.log(sArr);
                 // console.log(eArr);
 
-                //listDate 배열에 시작날짜와 끝 날짜 사이의 날짜 배열 반환
-                var listDate = [];
                     getDateRange(sDay, eDay, listDate);
                     console.log('l '+listDate);
                     console.log('d '+disDays)
@@ -339,18 +319,61 @@
                
 
   });
-        //테이블에서 선택불가날짜 가져오기
-        let inputDisDays = function() {
-        	
-        $("input[name=startDate]").each(function(index, item){
-        	disDays.push($(item).val());
-        });
         
-        $("input[name=endDate]").each(function(index, item){
-        	disDays.push($(item).val());
-        });
-   		console.log(disDays);
-					}
+      //시작 날짜와 끝 날짜 사이의 날짜 배열 생성
+        let getDateRange = function(startDate, endDate, listDate) {
+                var dateMove = new Date(startDate);
+                var strDate = startDate;
+
+                if (startDate == endDate) {
+                    var strDate = dateMove.toISOString().slice(0,10);
+                    listDate.push(strDate);
+                } else {
+
+                    while (strDate < endDate)  {
+                        var strDate = dateMove.toISOString().slice(0, 10);
+                        listDate.push(strDate);
+                        dateMove.setDate(dateMove.getDate() + 1);
+                    }
+                }
+                return listDate;
+            };
+        
+        
+        //테이블에서 선택불가날짜 가져오기
+        let inputDisDays = function() { 
+        	
+        	let startArr = [];
+        	let endArr = [];
+
+	        $("input[name=startDate]").each(function(index, item){
+	        	var startDate = $(item).val(); 	
+	        	startArr.push(startDate);
+	        });
+
+        	$("input[name=endDate]").each(function(index, item){
+        		var	endDate = $(item).val();  	
+        		endArr.push(endDate);
+	        });
+
+   			
+			//console.log('s'+startArr);
+			//console.log('e'+endArr);
+			
+			for(i=0; i<startArr.length; i++) {
+				getDateRange(startArr[i], endArr[i], listDate);
+			}
+			
+			for(i=0; i<listDate.length; i++) {
+				var dis = listDate[i];
+				disDays.push(dis);
+				
+				console.log(dis);
+			}
+			
+			console.log(disDays);
+		
+        }
 
 
      </script>
