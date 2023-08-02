@@ -38,7 +38,7 @@
    
    <c:forEach var="p" items="${pList}">
    펜션명 <input type="text" value="${p.pname}" id="pname"><br>
-   펜션ID <input type="text" value="${p.p_id}" id="p_id">
+   펜션ID <input type="text" value="${p.p_id}" id="p_id"> <%--hidden 변경 --%>
    </div><hr>
    
    
@@ -71,8 +71,8 @@
 </fieldset>
 
    <c:forEach var="dis" items="${disabledate}">
-   s<input type="text" value="${dis.startdate}" name="startDate">
-   e<input type="text" value="${dis.enddate}" name="endDate">
+   s<input type="text" value="${dis.startdate}" name="startDate"> <%--hidden 변경 --%>
+   e<input type="text" value="${dis.enddate}" name="endDate"> <%--hidden 변경 --%>
    </c:forEach>
 
 <%--forEach를 사용해서 pention의 정보 출력
