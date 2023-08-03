@@ -1,7 +1,10 @@
 package com.peco.controller;
 
+import java.io.IOException;
+
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,12 +30,6 @@ public class ResController {
    @GetMapping("list")
    public String getList(Model model) {   
       
-      
-      service.getMemberList();
-      service.getPentionList();
-      
-      
-      
       model.addAttribute("mList", service.getMemberList());
       model.addAttribute("pList", service.getPentionList());
       model.addAttribute("disabledate", service.getDisableDate());
@@ -43,30 +40,32 @@ public class ResController {
    @RequestMapping(value="/peco/insert", method=RequestMethod.POST)
 	public void insertAction(P_RESVO p_resVO, HttpServletRequest request) {
            
-           String pr_id = request.getParameter("pr_id"); //
+           String pr_id = request.getParameter("pr_id");
            String startdate = request.getParameter("startdate");
            String enddate = request.getParameter("enddate");
-           String pr_pay = request.getParameter("pr_pay"); //
+           String pr_pay = request.getParameter("pr_pay");
            String period = request.getParameter("period");
-           String pname = request.getParameter("pname");
            String p_id = request.getParameter("p_id");
-           String pricecnt = request.getParameter("pricecnt"); //
-           String pr_name = request.getParameter("pr_name"); //
+           String pricecnt = request.getParameter("pricecnt");
+           String pr_name = request.getParameter("pr_name");
+           String pr_email = request.getParameter("pr_email");
+           String pr_tel = request.getParameter("pr_tel");
            String imp_uid = request.getParameter("imp_uid");
-           
-           System.out.println(pr_pay);
-   
+           String m_id = request.getParameter("m_id");
+           String pname = request.getParameter("pname");
+           String roomname = request.getParameter("roomname");
+
            service.insertResvation(p_resVO);
            System.out.println("성공");
 	}
    
-   @GetMapping("/peco/success")
-   public String redirect() {
+   @GetMapping("/peco/redirect")
+   public String redirect(Model model){
+	   
+	   service.getResvationList();
+	   model.addAttribute("getRList",service.getResvationList());
 	   
 	   return "peco/success";
-	   //1.리디렉트 되는지 확인 --마이페이지나 리스트로 돌아가게 나중에 처리
-	   //2.pr_id이랑 imp_uid값 이용해서 예약취소처리
-	   //3.js 간단히 정리
    }
    
 }

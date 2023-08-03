@@ -11,10 +11,7 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
-<script>
 
-
-</script>
 </head>
 <style>
     /*달력속성 변경*/
@@ -26,6 +23,7 @@
     
     input:read-only {
     background-color: lightgrey;
+    
     }
 </style>
 <body>
@@ -38,15 +36,16 @@
    
    <c:forEach var="p" items="${pList}">
    펜션명 <input type="text" value="${p.pname}" id="pname"><br>
-   펜션ID <input type="text" value="${p.p_id}" id="p_id"> <%--hidden 변경 --%>
+   <input type="hidden" value="${p.p_id}" id="p_id"> <%--hidden 변경 --%>
+   객실명 <input type="text" value= "${p.roomname}" id="roomname">
+   
    </div><hr>
-   
-   
       <c:forEach var="mem" items="${mList}">
       <button id="btn2">직접입력</button><br>
-         이름 <input type="text" value="${mem.name }" id="user_id" readonly><br>
+   	회원번호 <input type="text" value= "${mem.m_id}" id="m_id">
+         이름 <input type="text" value="${mem.mname }" id="user_id" readonly><br>
          이메일 <input type="text" value="${mem.email }" id="user_email" readonly><br>
-         전화번호 <input type="text" value="${mem.phone }" id="user_tel" readonly><br>
+         전화번호 <input type="text" value="${mem.mphone }" id="user_tel" readonly><br>
       
    </div>
       <hr>
@@ -54,12 +53,12 @@
          <div class="datepicker1"></div>
            <div class="datepicker2"></div>
            <br>
-         입실날짜 <input type="text" value="" id="date1"><br>
-         퇴실날짜 <input type="text" value="" id="date2"><br>
-         총 숙박일 수<input type="text" value="" id="period"><br>
+         입실날짜 <input type="text" value="" id="date1" readonly><br>
+         퇴실날짜 <input type="text" value="" id="date2" readonly><br>
+         총 숙박일 수<input type="text" value="" id="period" readonly><br>
          
-         1박 금액 <input type="text" value="${p.price}" id="price">
-         결제금액 <input type="text" id="pay"><br>
+    1박 금액 <input type="text" value="${p.price}" id="price" readonly>
+         결제금액 <input type="text" id="pay" readonly><br>
       </div>
       </c:forEach></c:forEach>
       <br>
@@ -246,6 +245,7 @@
                            //DOM객체들에서 사용할 데이터 뽑기
 
                            var p_id = $('#p_id').val();
+                           var m_id = $('#m_id').val();
                            var pname = $('#pname').val();
                            var period = $('#period').val();
                            var pay = $('#pay').val();
@@ -254,6 +254,7 @@
                            var user_tel =  $('#user_tel').val();
                            var startdate = $('#date1').val();
                            var enddate = $('#date2').val();
+                           var roomname = $('#roomname').val();
 
                            IMP.request_pay({
                                 //카카오페이 결제시 사용할 정보 입력
@@ -270,7 +271,7 @@
                    			// 결제검증
                    			$.ajax({
                    	        	type : "POST",
-                   	        	url : "payment/verifyIamport/" + rsp.imp_uid 
+                   	        	url : "/payment/verifyIamport/" + rsp.imp_uid 
                    	        }).done(function(data) {
                    	        	
                    	        	console.log(data);
@@ -282,38 +283,47 @@
                    		        	msg += '\n고유ID : ' + rsp.imp_uid;
                                     msg += '\n상점 거래ID : ' + rsp.merchant_uid;
                                     msg += '\n결제 금액 : ' + rsp.paid_amount+'원';
-                                    msg += '\n카드 승인번호 : ' + rsp.apply_num;
+                                    
+                                    if(rsp.apply_num === null || rsp.apply_num === undefined || rsp.apply_num === '') {
+                                    	rsp.apply_num = '카카오페이머니';
+                                    }
+                                    msg += '\n카드 승인번호 : ' + rsp.apply_num;                                    	
                    		        	
                                     $.ajax({
                                         url: "/peco/insert",
                                         type: 'post',
                                         data: {
-                                           p_id: p_id,//펜션아이디
-	                                       pname: pname,//펜션이름
+                                           p_id: p_id,//펜션아이디   
 	                                       period: period,//기간
 	                                       pricecnt: pay,//결제할 가격
-	                                       startdate : startdate,
-	                                       enddate : enddate,
+	                                       startdate : startdate, //입실일
+	                                       enddate : enddate, //퇴실일
 	                                       pr_name: user_id,//예약자명
-	                                       email: user_email,//예약자 이메일
-	                                       tel: user_tel,//예약자 전화번호
+	                                       pr_email: user_email,//예약자 이메일
+	                                       pr_tel: user_tel,//예약자 전화번호
 	                                       imp_uid: rsp.imp_uid, //거래고유번호
 	                                       pr_id: rsp.merchant_uid, //주문고유번호=펜션예약번호
-	                                       pr_pay: rsp.apply_num, //카드승인번호
-                                        }
-                                           
+									 	   pr_pay: rsp.apply_num, //카드승인번호
+									 	   m_id : m_id,//회원번호 -예약자명 직접입력 경우 다를 경우
+									 	   pname : pname, //펜션명
+									 	   roomname : roomname,//객실명
+                                        }                               
                                       });
+                                    console.log('토큰생성');
+                                    $.ajax({
+                                    	type : "POST",
+                           	        	url : "/payment/complete"
+                                    })
+                                    console.log('토큰생성완료');
                                     
                                     $('#resForm').submit(); 
+                           			alert(msg);
+                           			window.location.replace("./redirect");
                    	        	} else {
                    	        		var msg = '결제에 실패하였습니다.';
                                     msg += '에러내용 : ' + rsp.error_msg;
+                           			alert(msg);
                    	        	}
-                           		alert(msg);
-	                           	 $.ajax({
-	                                 url: "/peco/success",
-	                                 type: 'get'
-	                           	 })
                            		
                    	        });
                            });

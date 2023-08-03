@@ -8,5 +8,6 @@ public class PentionVO {
    private String pname;
    private String p_id;
    private String price;
+   private String roomname;
 
 }

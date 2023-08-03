@@ -7,25 +7,33 @@
 <mapper namespace="com.peco.mapper.ResMapper">
 
    <select id="getMemberList" resultType="com.peco.vo.MemberVO">
-   select * from member
+   select mname, email, mphone, m_id from member
+	where m_id = 'm0000001'
    </select>
    
    <select id="getPentionList" resultType="com.peco.vo.PentionVO">
-   select * from Pension where p_id = 'p22222222'
+   select pname, roomname, price, pension.p_id
+	from pension left outer join room
+	on pension.p_id = room.p_id
+	where pension.p_id = 'p00001' and roomno = 'r01' 
    </select>
    
    <select id="getDisableDate" resultType="com.peco.vo.P_RESVO">
    	select STARTDATE, ENDDATE from p_res
    </select>
    
+   <select id="getResvationList" resultType="com.peco.vo.P_RESVO">
+   	select imp_uid, startdate, enddate, pr_name, pr_email, pr_tel, roomname, pname, pricecnt, p_id 
+	from p_res
+	where m_id = 'm0000001'
+   </select>
+   
    <insert id="insertResvation">
    insert into P_RES (PR_ID, STARTDATE, ENDDATE, PR_PAY, PERIOD
-                  , PNAME, P_ID, PRICECNT, PR_NAME, IMP_UID)
-             values (#{pr_id, jdbcType=VARCHAR}, #{startdate}
-             , #{enddate}, #{pr_pay, jdbcType=VARCHAR}
-             , #{period}, #{pname}
-             , #{p_id}, #{pricecnt, jdbcType=VARCHAR}
-             , #{pr_name, jdbcType=VARCHAR}, #{imp_uid})
+                  , P_ID, PRICECNT, PR_NAME, PR_EMAIL, PR_TEL, IMP_UID, M_ID, PNAME, ROOMNAME)
+             values (#{pr_id}, #{startdate}, #{enddate}, #{pr_pay}, #{period}
+             , #{p_id}, #{pricecnt}, #{pr_name}, #{pr_email}, #{pr_tel}, #{imp_uid}, #{m_id}
+             , #{pname}, #{roomname})
    </insert>
    
 </mapper>

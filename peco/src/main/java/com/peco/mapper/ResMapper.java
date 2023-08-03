@@ -14,5 +14,7 @@ public interface ResMapper {
 	
 	public List<P_RESVO> getDisableDate();
 	
+	public List<P_RESVO> getResvationList();
+	
 	public int insertResvation(P_RESVO p_resVO);
 }

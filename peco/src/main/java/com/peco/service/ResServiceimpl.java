@@ -37,4 +37,9 @@ public class ResServiceimpl implements ResService{
 		return mapper.getDisableDate();
 	}
 
+	@Override
+	public List<P_RESVO> getResvationList() {
+		return mapper.getResvationList();
+	}
+
 }
