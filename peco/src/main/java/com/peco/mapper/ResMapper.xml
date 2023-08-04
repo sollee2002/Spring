@@ -36,4 +36,8 @@
              , #{pname}, #{roomname})
    </insert>
    
+   <delete id="deleteRes">
+		delete P_RES where IMP_UID=#{imp_uid}
+	</delete>
+   
 </mapper>

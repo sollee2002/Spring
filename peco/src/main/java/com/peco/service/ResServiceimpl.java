@@ -42,4 +42,9 @@ public class ResServiceimpl implements ResService{
 		return mapper.getResvationList();
 	}
 
+	@Override
+	public int deleteRes(String imp_uid) {
+		return mapper.deleteRes(imp_uid);
+	}
+
 }

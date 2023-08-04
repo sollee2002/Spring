@@ -20,5 +20,7 @@ public interface ResService {
 	public List<P_RESVO> getResvationList();
 	
 	public int insertResvation(P_RESVO p_resVO);
+	
+	public int deleteRes(String imp_uid);
 
 }

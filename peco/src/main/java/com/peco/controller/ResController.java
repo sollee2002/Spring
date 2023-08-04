@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -66,6 +67,23 @@ public class ResController {
 	   model.addAttribute("getRList",service.getResvationList());
 	   
 	   return "peco/success";
+   }
+   
+   @ResponseBody
+   @RequestMapping(value="/peco/delete", method=RequestMethod.POST)
+   public void deleteRes(HttpServletRequest request) {
+	   
+	   String imp_uid = request.getParameter("imp_uid");
+	   
+	   System.out.println("del : "+imp_uid);
+	   int res = service.deleteRes(imp_uid);
+	   
+	   if(res>0) {
+		   System.out.println("정상삭제");
+	   } else {
+		   System.out.println("삭제중 오류");
+	   }
+	   
    }
    
 }
