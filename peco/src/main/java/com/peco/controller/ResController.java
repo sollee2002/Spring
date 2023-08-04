@@ -38,6 +38,12 @@ public class ResController {
       return "peco/resvation";
    }
    
+   @GetMapping("boot")
+   public String getList() {   
+      
+      return "peco/boot";
+   }
+   
    @RequestMapping(value="/peco/insert", method=RequestMethod.POST)
 	public void insertAction(P_RESVO p_resVO, HttpServletRequest request) {
            

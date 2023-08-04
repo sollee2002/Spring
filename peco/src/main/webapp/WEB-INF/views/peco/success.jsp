@@ -14,7 +14,8 @@
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 </head>
 <style>
-	table, tr, td {
+
+	tr, td {
 	border : 1px solid black;
 	}
 	
@@ -23,14 +24,14 @@
 	background-color : black;
 	color : white;
 	}
+	
 </style>
 <body>
 
 <h2>예약내역</h2>
-<form name='myresForm' action="" onsubmit="return false">
+<form name='myresForm' onsubmit="return false">
 <table>
 <tr>
-	<th><input type="checkbox" id="cbx_chkAll"></th>
 	<th>예약번호</th>
 	<th>펜션명</th>
 	<th>객실명</th>
@@ -40,12 +41,15 @@
 	<th>예약자명</th>
 	<th>이메일</th>
 	<th>전화번호</th>
-	<th></th>
 </tr>
-
+<c:if test="${fn:length(getRList )==0}">
+<tr>
+<td  colspan="9">예약내역이 없습니다</td>
+</tr>
+</c:if>
 <c:forEach var="r" items="${getRList }" varStatus="status">
 <tr>
-<td><input type="text" value="${status.index}" style="width:20px; border:none;" id="index"></td>
+<input type="hidden" value="${status.index}" style="width:20px; border:none;" id="index">
 <c:choose>
 	<c:when test="${fn:length(r.imp_uid) > 1}">
 		<td><input type="text" id="imp_uid" data-uid="${status.index}" value="${fn:substring(r.imp_uid,4,16)}"></td>
@@ -59,7 +63,7 @@
 <td>${r.pr_name }</td>
 <td>${r.pr_email }</td>
 <td>${r.pr_tel }</td>
-<td><button  onclick="del(${status.index})">예약취소${status.index}</button></td>
+<td style="border: none;"><button onclick="del(${status.index})">예약취소</button></td>
 </tr>
 </c:forEach>
 
@@ -70,13 +74,6 @@
 </form>
 
 <script>
-$(document).ready(function() {
-	   //js 간단히 정리
-	   //imp_uid와 pay값을 선택해 올 수 있도록(반복문이라 정확하게 선택할 수 없음)
-	   //예약취소처리한 값 DB에서 삭제
-
-
-});
 		function del(index) {
 			var i = index;
 			console.log(i);
@@ -111,6 +108,7 @@ $(document).ready(function() {
 			        })
 		    
 		        alert("삭제완료");
+			    location.reload();
 		    
 		    }).fail(function(error) { // 환불 실패시 로직
 		      	alert("환불 실패");

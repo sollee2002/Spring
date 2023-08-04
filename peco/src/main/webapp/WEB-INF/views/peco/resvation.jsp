@@ -70,24 +70,9 @@
 </fieldset>
 
    <c:forEach var="dis" items="${disabledate}">
-   s<input type="text" value="${dis.startdate}" name="startDate"> <%--hidden 변경 --%>
-   e<input type="text" value="${dis.enddate}" name="endDate"> <%--hidden 변경 --%>
+   s<input type="hidden" value="${dis.startdate}" name="startDate"> <%--hidden 변경 --%>
+   e<input type="hidden" value="${dis.enddate}" name="endDate"> <%--hidden 변경 --%>
    </c:forEach>
-
-<%--forEach를 사용해서 pention의 정보 출력
-펜션 아이디 숨기기
-조인을 이용해 조회하여
-1박가격을 가져와 총 결제가격 계산
-
-비활성화 날짜
-- 펜션예약내역 테이블에서 입실/퇴실 날짜를 가져오고
-펜션정보테이블에 (객실종류/수량 이 있다면)관련 처리를 통해 -1 또는 false를 반환하는 날짜를 배열로 생성 
-
-예약하기 클릭 시 모달창으로 결제창 열기
-
-//완료 시 폼 가지고 병원폼 만들기
--입실/퇴실 대신 시간 받아와야함
--반려동물 이름을 받는지 아닌지 생각해보기 --%>
 
     <script>
 

@@ -23,7 +23,6 @@ import com.siot.IamportRestClient.response.IamportResponse;
 import com.siot.IamportRestClient.response.Payment;
 
 @Controller
-@RequestMapping("peco/payment/*")
 public class PaymentController{
 
     private final IamportClient iamportClient;
@@ -34,7 +33,7 @@ public class PaymentController{
     }
 
     @ResponseBody
-    @RequestMapping("verifyIamport/{imp_uid}")
+    @RequestMapping("/payment/verifyIamport/{imp_uid}")
     public IamportResponse<Payment> paymentByImpUid(@PathVariable("imp_uid") String imp_uid)
             throws IamportResponseException, IOException {
         return iamportClient.paymentByImpUid(imp_uid);
@@ -44,7 +43,7 @@ public class PaymentController{
     @Autowired
     private PaymentService paymentService;
     
-    @PostMapping("complete")
+    @PostMapping("peco/payment/complete")
     public ResponseEntity<String> paymentComplete(HttpSession session, P_RESVO p_resvo) throws IOException {
      
     	String token = paymentService.getToken();
@@ -53,7 +52,7 @@ public class PaymentController{
       return new ResponseEntity<>(HttpStatus.OK);
     }
     
-    @PostMapping("cancel")
+    @PostMapping("peco/payment/cancel")
     public ResponseEntity<String> delete(HttpSession session, @RequestParam("imp_uid") String imp_uid
     					,@RequestParam("amount") String amount) {
     	    	
